@@ -1,17 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import os
 
 client = MongoClient()
 db = client.Playlister
 playlists = db.playlists
 
+host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/Playlister')
+client = MongoClient(host=host)
+db = client.get_default_database()
+playlists = db.playlists
+
 app = Flask(__name__)
 
-#playlists = [
-    #  { 'title': 'Cat Videos', 'description': 'Cats acting weird' },
-    # { 'title': '80\'s Music', 'description': 'Don\'t stop believing!' }
-#]
 
 @app.route('/')
 def playlists_index():
@@ -30,7 +32,6 @@ def playlists_submit():
         'title': request.form.get('title'),
         'description': request.form.get('description'),
         'videos': request.form.get('videos').split(),
-        'rating': request.form.get('rating')
     }
     playlist_id = playlists.insert_one(playlist).inserted_id
     return redirect(url_for('playlists_show', playlist_id=playlist_id))
@@ -60,8 +61,13 @@ def playlists_update(playlist_id):
         {'$set': updated_playlist})
     return redirect(url_for('playlists_show', playlist_id=playlist_id))
 
+# app.py
+...
 @app.route('/playlists/<playlist_id>/delete', methods=['POST'])
 def playlists_delete(playlist_id):
     """Delete one playlist."""
     playlists.delete_one({'_id': ObjectId(playlist_id)})
     return redirect(url_for('playlists_index'))
+
+f __name__ == '__main__':
+  app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
