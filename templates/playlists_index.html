@@ -8,12 +8,8 @@
 <div class='row'>
   {% for playlist in playlists %}
       <div class='col-md-3'>
-          <div class="card">
-              <div class="card-body">
-                  <h2><a href='/playlists/{{ playlist._id }}'>{{ playlist.title }}</a></h2>
-                  <small>{{ playlist.description }}</small>
-              </div>
-          </div>
+          <h2><a href='/playlists/{{ playlist._id }}'>{{ playlist.title }}</a></h2>
+          <small>{{ playlist.description }}</small>
       </div>
   {% endfor %}
 </div>
