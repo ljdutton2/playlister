@@ -35,7 +35,7 @@ pipenv==2018.11.26
 pluggy==0.13.0
 postgres==2.2.2
 psycopg2-binary==2.8.3
-py==1.8.0
+py==1.10.0
 pycodestyle==2.5.0
 pydocstyle==4.0.1
 pyfiglet==0.8.post1
